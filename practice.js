@@ -79,24 +79,69 @@ var cookiesOnly = function(desserts) {
  *
  */
 // return the total price of all products.
+
+/*
+_.reduce([1, 2, 3], function(memo, item) {
+  return memo + item;
+}, 0);
+  ---> returns 6
+*/
+
+
+
 var sumTotal = function(products) {
-  return _.reduce(products, function (value, index, collection) {
-    var price = parseInt(collection[index].price.slice(1, collection[index].price.length));
-    console.log(price);
-    return accumulator + price;
+
+
+  return _.reduce(products, function (memo, item) {
+    var priceWithSym = item.price.slice();
+    var priceNoSym = priceWithSym.slice(1, priceWithSym.length);
+    var price = parseFloat(priceNoSym);
+    return memo + price;
   }, 0);
 };
 
 // return an object consisting of dessert types and how many of each.
 // exampleOutput: { dessertType: 3, dessertType2: 1 }
+
+debugger;
 var dessertCategories = function(desserts) {
 
+  _.reduce(desserts, function (memo, item) {
+
+    if (!memo[item.type]) {
+      memo[item.type] = 1;
+    } else {
+      memo[item.type]++;
+    }
+    console.log(memo);
+
+    return memo;
+  }, {});
+
 };
+
+dessertCategories(desserts);
+
+
 
 // given an array of movie data objects,return an array containing
 // movies that came out between 1990 and 2000.
 // TIP: use an array as your accumulator - don't push to an external array!
 var ninetiesKid = function(movies) {
+
+  _.reduce(movies, function (memo, item) {
+    var movie = [item.title];
+    // console.log(memo);
+    // console.log(movie, item.releaseYear, item.releaseYear > 1900, item.releaseYear < 2000);
+    // check if movie came out betwo 1990-2000
+    if (item.releaseYear, item.releaseYear >= 1900 && item.releaseYear <= 2000) {
+      // if yes, concat movie as arrary with memo
+      // console.log( item.title + item.releaseYear.toString() + ` is a 90's movie`);
+      memo = memo.concat(movie);
+    }
+    // return memo
+    return memo;
+  }, []);
 
 };
 
@@ -104,7 +149,14 @@ var ninetiesKid = function(movies) {
 // runtime than your time limit.
 // timeLimit is an integer representing a number of minutes.
 var movieNight = function(movies, timeLimit) {
-
+  _.reduce(movies, function(memo, item) {
+    // console.log(item, item.title, item.runtime, timeLimit, item.runtime < timeLimit );
+    console.log(memo);
+    if (item.runtime < timeLimit) {
+      memo = true;
+    }
+    return memo;
+  }, false);
 };
 
 /*
@@ -118,12 +170,10 @@ var movieNight = function(movies, timeLimit) {
 var upperCaseFruits = function(fruits) {
   return _.map(fruits, function(value) {
     var upperLetter = value[0].toUpperCase();
-    // console.log(upperLetter);
+
     var slicedWord = value.slice(1, value.length);
-    // console.log(slicedWord);
 
     var upperCased = upperLetter + slicedWord;
-    console.log(upperCased);
     return upperCased;
 
   });
